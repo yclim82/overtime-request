@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4248a8"/><stop offset="1" stop-color="#23275f"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd25e"/><stop offset="1" stop-color="#f08a1c"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <!-- clock face -->
+  <circle cx="256" cy="236" r="150" fill="#ffffff"/>
+  <!-- overtime arc: 12 o'clock round to about 5 o'clock -->
+  <path d="M256 66 A170 170 0 0 1 403 321" fill="none" stroke="url(#arc)" stroke-width="30" stroke-linecap="round"/>
+  <g stroke="#2f337e" stroke-linecap="round">
+    <line x1="256" y1="106" x2="256" y2="128" stroke-width="12"/>
+    <line x1="386" y1="236" x2="364" y2="236" stroke-width="12"/>
+    <line x1="256" y1="366" x2="256" y2="344" stroke-width="12"/>
+    <line x1="126" y1="236" x2="148" y2="236" stroke-width="12"/>
+    <line x1="256" y1="236" x2="256" y2="152" stroke-width="18"/>
+    <line x1="256" y1="236" x2="322" y2="276" stroke-width="18"/>
+  </g>
+  <circle cx="256" cy="236" r="15" fill="#f08a1c"/>
+  <text x="256" y="462" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-weight="700"
+        font-size="64" fill="#ffffff" letter-spacing="6">OT</text>
+</svg>

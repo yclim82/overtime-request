@@ -1,0 +1,17 @@
+{
+  "name": "Overtime Request",
+  "short_name": "Overtime",
+  "description": "Submit overtime requests — ViTrox VC3.0, VC4.0 and VC5.0.",
+  "id": "/overtime-request/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eceef1",
+  "theme_color": "#2f337e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Overtime Request</title>
+
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="apple-touch-512.png">
+<meta name="theme-color" content="#2f337e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Overtime">
+<meta name="application-name" content="Overtime">
+
+<style>
+  :root { --navy:#2f337e; --bg:#eceef1; --muted:#5b6470; --line:#dde1e6; }
+  * { box-sizing:border-box; }
+  html, body { margin:0; min-height:100%; background:var(--bg);
+               font-family:'Segoe UI', Roboto, system-ui, sans-serif; }
+  body { min-height:100vh; display:flex; align-items:center; justify-content:center;
+         padding:32px 16px calc(env(safe-area-inset-bottom) + 32px); }
+  .wrap { display:flex; gap:28px; align-items:center; justify-content:center; flex-wrap:wrap; max-width:820px; }
+  .main { display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center; max-width:340px; }
+  img.logo { width:132px; height:132px; filter:drop-shadow(0 6px 14px rgba(47,51,126,.3)); }
+  h1 { margin:0; font-size:21px; font-weight:600; color:#1f2430; }
+  p  { margin:0; color:var(--muted); font-size:14px; line-height:1.55; }
+  .btn { display:inline-block; background:var(--navy); color:#fff; text-decoration:none; border:0;
+         padding:14px 30px; border-radius:10px; font:inherit; font-size:15px; font-weight:600; cursor:pointer;
+         box-shadow:0 2px 8px rgba(47,51,126,.28); }
+  .btn.alt { background:#fff; color:var(--navy); border:1.5px solid var(--navy); box-shadow:none; }
+  .btn:active { transform:translateY(1px); }
+  .spin { width:20px; height:20px; border:3px solid #d3d8de; border-top-color:var(--navy);
+          border-radius:50%; animation:sp .8s linear infinite; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+  .hide { display:none !important; }
+  .hint { display:flex; flex-direction:column; gap:6px; text-align:left; background:#fff;
+          border:1px solid var(--line); border-radius:12px; padding:15px 18px; width:100%; }
+  .hint b { color:var(--navy); }
+  .hint span { font-size:13px; color:var(--muted); }
+  .hint em { font-size:12px; color:#8a929c; font-style:normal; margin-top:3px; }
+  .qr { background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px; text-align:center; width:280px; }
+  .qr img { width:220px; height:220px; display:block; margin:8px auto; }
+  .qr b { color:var(--navy); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="main">
+    <img class="logo" src="icon-512.png" alt="">
+    <h1>Overtime Request</h1>
+
+    <div class="spin" id="spin"></div>
+    <p id="msg">Opening the overtime request form…</p>
+
+    <a class="btn" id="openBtn" href="#">Open Overtime Request</a>
+    <button class="btn alt hide" id="installBtn" type="button">&#x2B73; Install app</button>
+
+    <div id="installHint" class="hint hide">
+      <b>To install this app</b>
+      <span>Android — Chrome menu <b>⋮</b> → <b>Install app</b> / <b>Add to Home screen</b></span>
+      <span>iPhone — Safari <b>Share</b> → <b>Add to Home Screen</b></span>
+      <span>Laptop — Chrome/Edge: click the <b>install</b> icon at the right of the address bar</span>
+      <em>Sign in with your @vitrox.com account when the form opens.</em>
+    </div>
+  </div>
+
+  <!-- Shown on laptops: scan to put the app on your phone. -->
+  <div class="qr hide" id="qrBox">
+    <b>Install on your phone</b>
+    <img src="qr.png" alt="QR code for this page">
+    <p>Scan with your phone camera, then follow the install steps.</p>
+  </div>
+</div>
+
+<script>
+  // The deployed Apps Script web app. Redeploying the same deployment keeps this
+  // URL; only a brand-new deployment would change it.
+  var APP_URL = 'https://script.google.com/a/macros/vitrox.com/s/AKfycby1Ju4-mz-6N9J6Fj6imJs1IaAXpNz2b4nFCTSFMiUBeIJyFZNFmhBy30rk5p2h4HOrbg/exec';
+
+  document.getElementById('openBtn').href = APP_URL;
+
+  // A top-level navigation, not an iframe: Google sign-in refuses to render
+  // inside a frame.
+  var went = false;
+  function go() { if (went) return; went = true; location.replace(APP_URL); }
+
+  var installed = window.matchMedia('(display-mode: standalone)').matches ||
+                  window.navigator.standalone === true;
+  var phone = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  // Only forward automatically once installed. In a normal tab, stay here so the
+  // person can install it. ?stay=1 holds the page open for checking.
+  if (installed && location.search.indexOf('stay=1') === -1) {
+    setTimeout(go, 400);
+  } else {
+    document.getElementById('spin').classList.add('hide');
+    document.getElementById('msg').textContent = 'Tap below to open the overtime request form.';
+    document.getElementById('installHint').classList.remove('hide');
+    if (!phone) document.getElementById('qrBox').classList.remove('hide');
+  }
+
+  setTimeout(function () {
+    document.getElementById('spin').classList.add('hide');
+    if (installed) document.getElementById('msg').textContent = 'Tap the button to open the form.';
+  }, 4000);
+
+  // One-tap install where the browser supports it (Chrome / Edge, Android & desktop).
+  var deferred = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferred = e;
+    if (!installed) document.getElementById('installBtn').classList.remove('hide');
+  });
+  document.getElementById('installBtn').onclick = function () {
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.finally(function () {
+      deferred = null;
+      document.getElementById('installBtn').classList.add('hide');
+    });
+  };
+  window.addEventListener('appinstalled', function () {
+    document.getElementById('installBtn').classList.add('hide');
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  }
+</script>
+</body>
+</html>
